@@ -1,10 +1,13 @@
 package br.unigran.agenda;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unigran.bancoDados.ContatoDB;
 import br.unigran.bancoDados.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     List<Contato> dados;
     ListView listagem;
     DBHelper db;
+    ContatoDB contatoDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,26 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter adapter =
         new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dados);
         listagem.setAdapter(adapter);
+        contatoDB=new ContatoDB(db);
+        contatoDB.lista(dados);
+        listagem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AlertDialog.Builder alert =
+                        new AlertDialog.Builder(getApplicationContext());
+                alert.setMessage("Confirmar");
+                alert.setPositiveButton("remover",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                alert.create().show();
+
+                return false;
+            }
+        });
 
     }
 
@@ -44,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
         Contato contato = new Contato();
         contato.setNome(nome.getText().toString());
         contato.setTelefone(telefone.getText().toString());
-        dados.add(contato);
-        db.inserir(contato,db);
+
+        contatoDB.inserir(contato);
+        contatoDB.lista(dados);
 
         Snackbar.make(this,view,"ertrt", BaseTransientBottomBar.LENGTH_SHORT).
 //                setAction(R.string.app_name, new View.OnClickListener() {
