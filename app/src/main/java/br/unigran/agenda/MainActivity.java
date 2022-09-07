@@ -33,32 +33,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = new DBHelper(this);//cria conexao
         setContentView(R.layout.activity_main);
+        db = new DBHelper(this);//cria conexao
+      //mapeia campos tela
         nome=findViewById(R.id.nomeId);
         telefone=findViewById(R.id.telefoneId);
-        dados= new ArrayList();
+        dados= new ArrayList();//aloca lista
         listagem=findViewById(R.id.listaId);
+        //vincula adapter
         ArrayAdapter adapter =
-        new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dados);
+        new ArrayAdapter(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dados);
         listagem.setAdapter(adapter);
         contatoDB=new ContatoDB(db);
-        contatoDB.lista(dados);
-        listagem.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        contatoDB.lista(dados);//lista inicial
+       acoes();
+    }
+
+    private void acoes() {
+        listagem.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AlertDialog.Builder alert =
-                        new AlertDialog.Builder(getApplicationContext());
-                alert.setMessage("Confirmar");
-                alert.setPositiveButton("remover",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                alert.create().show();
-
+            public boolean onItemLongClick(AdapterView<?> adapterView,
+                                           View view, int i, long l) {
+               new AlertDialog.Builder(view.getContext())
+               .setMessage("Deseja realmente remover")
+               .setPositiveButton("Confirmar",
+                      new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialogInterface,
+                                          int i) {
+                               contatoDB.remover(dados.get(i).getId());
+                               contatoDB.lista(dados);
+                           }
+                       })
+               .setNegativeButton("cancelar",null)
+               .create().show();
                 return false;
             }
         });
