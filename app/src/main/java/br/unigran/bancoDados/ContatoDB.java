@@ -17,10 +17,16 @@ public class ContatoDB {
     }
     public void inserir(Contato contato){
         conexao = db.getWritableDatabase();//abri o bd
+
         ContentValues valores = new ContentValues();
         valores.put("nome",contato.getNome());
         valores.put("telefone",contato.getTelefone());
+        if(contato.getId()>0)
+        conexao.update("Agenda",valores,"id=?",
+                new String[]{contato.getId().toString()});
+        else
         conexao.insertOrThrow("Agenda",null,valores);
+
         conexao.close();
     }
     public void atualizar(){}

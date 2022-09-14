@@ -4,4 +4,5 @@
     <string name="hint_entre_com_o_numero">Entre com o numero</string>
     <string name="hint_salvar_contato">Salvar contato</string>
     <string name="salvar">Salvar</string>
+    <string name="desistir">Desistir</string>
 </resources>

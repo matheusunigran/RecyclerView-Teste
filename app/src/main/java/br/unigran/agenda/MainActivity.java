@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                       new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface dialogInterface,
-                                          int i) {
+                                          int k) {
                                contatoDB.remover(dados.get(i).getId());
                                contatoDB.lista(dados);
                            }
@@ -73,15 +73,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    listagem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+           contato=dados.get(i);
+            nome.setText(contato.getNome());
+            telefone.setText(contato.getTelefone());
+            findViewById(R.id.idDesistir).setVisibility(View.VISIBLE);
+        }
+    });
+    }
+    private void limpar(){
+        nome.setText("");
+        telefone.setText("");
+        findViewById(R.id.idDesistir).setVisibility(View.INVISIBLE);
+
+    }
+    public void desistir(View view){
+      limpar();
+    }
+    Contato contato;
     public void salvar(View view){
-        Contato contato = new Contato();
+        if(contato==null)
+            contato = new Contato();
         contato.setNome(nome.getText().toString());
         contato.setTelefone(telefone.getText().toString());
 
         contatoDB.inserir(contato);
+       //atualiza lista
         contatoDB.lista(dados);
+
+        ((ArrayAdapter) listagem.getAdapter()
+        ).notifyDataSetChanged();
+        limpar();
+
+        contato=null;
 
         Snackbar.make(this,view,"ertrt", BaseTransientBottomBar.LENGTH_SHORT).
 //                setAction(R.string.app_name, new View.OnClickListener() {
@@ -94,5 +121,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"Salvo com sucesso",Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        limpar();
 
+    }
 }
