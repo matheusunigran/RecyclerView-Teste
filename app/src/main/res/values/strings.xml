@@ -5,4 +5,6 @@
     <string name="hint_salvar_contato">Salvar contato</string>
     <string name="salvar">Salvar</string>
     <string name="desistir">Desistir</string>
+    <string name="nome">Nome</string>
+    <string name="telefone">Telefone</string>
 </resources>

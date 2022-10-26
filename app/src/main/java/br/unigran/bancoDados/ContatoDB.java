@@ -16,42 +16,42 @@ public class ContatoDB {
         this.db=db;
     }
     public void inserir(Contato contato){
-        conexao = db.getWritableDatabase();//abri o bd
 
-        ContentValues valores = new ContentValues();
-        valores.put("nome",contato.getNome());
-        valores.put("telefone",contato.getTelefone());
-        if(contato.getId()>0)
-        conexao.update("Agenda",valores,"id=?",
-                new String[]{contato.getId().toString()});
-        else
-        conexao.insertOrThrow("Agenda",null,valores);
+        conexao = db.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put("nome", contato.getNome());
+        values.put("telefone", contato.getTelefone());
+
+        conexao.insertOrThrow("agenda", null, values);
         conexao.close();
     }
-    public void atualizar(){}
+
     public void remover(int id){
         conexao=db.getWritableDatabase();
         conexao.delete("Agenda","id=?",
                 new String[]{id+""});
     }
     public void lista(List dados){
+
         dados.clear();
-        conexao=db.getReadableDatabase();
-        String names[]={"id","nome","telefone"};
-        Cursor query = conexao.query("Agenda", names,
-                null, null, null,
-                null, "nome");
-        while (query.moveToNext()){
+        conexao = db.getReadableDatabase();
+
+        String names[] = {"id", "nome", "telefone"};
+        Cursor query = conexao.query(
+                "agenda", names, null, null, null, null,
+                null
+        );
+
+        while(query.moveToNext()) {
             Contato contato = new Contato();
-            contato.setId(Integer.parseInt(
-                    query.getString(0)));
-            contato.setNome(
-                    query.getString(1));
-            contato.setTelefone(
-                    query.getString(2));
+            contato.setId(Integer.parseInt(query.getString(0)));
+            contato.setNome(query.getString(1));
+            contato.setTelefone(query.getString(2));
+
             dados.add(contato);
-     }
+        }
         conexao.close();
+
     }
 }

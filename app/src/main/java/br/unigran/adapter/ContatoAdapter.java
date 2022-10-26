@@ -43,8 +43,8 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoH
         public TextView numero;
         public ContatoHolder(@NonNull View itemView) {
             super(itemView);
-            nome =itemView.findViewById(R.id.idnome);
-            numero =itemView.findViewById(R.id.idnumero);
+            nome =itemView.findViewById(R.id.nomeid);
+            numero =itemView.findViewById(R.id.numeroid);
         }
     }
 }
