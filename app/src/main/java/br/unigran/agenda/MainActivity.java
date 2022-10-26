@@ -2,6 +2,8 @@ package br.unigran.agenda;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unigran.adapter.ContatoAdapter;
 import br.unigran.bancoDados.ContatoDB;
 import br.unigran.bancoDados.DBHelper;
 
@@ -39,12 +42,16 @@ public class MainActivity extends AppCompatActivity {
         nome=findViewById(R.id.nomeId);
         telefone=findViewById(R.id.telefoneId);
         dados= new ArrayList();//aloca lista
-        listagem=findViewById(R.id.listaId);
+        listagem=findViewById(R.id.idlista);
+
+        ContatoAdapter adapter;
+        RecyclerView recyclerView;
+        LinearLayoutManager linearLayoutManager;
         //vincula adapter
-        ArrayAdapter adapter =
+        /*ArrayAdapter adapter =
         new ArrayAdapter(this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dados);
-        listagem.setAdapter(adapter);
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dados);*/
+        //listagem.setAdapter(adapter);
         contatoDB=new ContatoDB(db);
         contatoDB.lista(dados);//lista inicial
        acoes();

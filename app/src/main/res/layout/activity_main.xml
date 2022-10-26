@@ -67,21 +67,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/telefoneId" />
 
-    <LinearLayout
-        android:layout_width="358dp"
-        android:layout_height="320dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idlista"
+        android:layout_width="409dp"
+        android:layout_height="550dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idDesistir">
-
-        <ListView
-            android:id="@+id/listaId"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/idDesistir" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
